@@ -1,0 +1,19 @@
+# Logs, backups, local state
+*.log
+*.bak
+backups/
+saved_target.txt
+
+# Third-party binaries (download from upstream links in README.md)
+*.exe
+*.sys
+*.dll
+*.cer
+*.zip
+nvpwr/*.cmd
+nvpwr/*.ps1
+!nvpwr/README.md
+
+# OS / Editor
+.DS_Store
+Thumbs.db

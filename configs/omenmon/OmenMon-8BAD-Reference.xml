@@ -1,0 +1,97 @@
+<!--
+  OmenMon-Reborn v1.6.2+ Reference Snippet for HP OMEN 17 (Board ID: 8BAD, 2023 i7-13700HX + RTX 4080)
+  Upstream: https://github.com/seakyy/OmenMon-Reborn (GPL-3.0)
+
+  Key fixes vs stock OmenMon.xml:
+  1. <FanMode>Performance</FanMode> on AC FanPrograms stops the EC/BIOS 130W CPU PL1 clamp.
+  2. <FanProgramModeCheckFirst>false</FanProgramModeCheckFirst> ensures OmenMon re-asserts BIOS
+     SetFanMode(Performance) every 30s so the EC watchdog does not drop fans after ~6 minutes.
+  3. <FanProgramSharedTemperature>true</FanProgramSharedTemperature> binds both fans to max(CPU, GPU)
+     across shared heat pipes so the GPU fan never drops while CPU is cooler (or vice versa).
+  4. <FanCountdownExtendAlways>true</FanCountdownExtendAlways> prevents countdown expiry.
+-->
+<OmenMon>
+    <Config>
+        <AutoConfig>true</AutoConfig>
+        <AutoStartup>true</AutoStartup>
+        <BiosHeartbeatPauseOnBattery>true</BiosHeartbeatPauseOnBattery>
+
+        <AcFlickerGuard>true</AcFlickerGuard>
+        <AcFlickerHoldMs>10000</AcFlickerHoldMs>
+        <AcFlickerConfirmSamples>3</AcFlickerConfirmSamples>
+        <AcFlickerConfirmIntervalMs>250</AcFlickerConfirmIntervalMs>
+        <AcFlickerMaxDeferralMs>60000</AcFlickerMaxDeferralMs>
+        <AcFlickerPassivePoll>true</AcFlickerPassivePoll>
+
+        <BatteryGlitchGuard>true</BatteryGlitchGuard>
+        <BatteryGlitchDropPercent>30</BatteryGlitchDropPercent>
+        <BatteryGlitchWindowMs>5000</BatteryGlitchWindowMs>
+        <BatteryGlitchHoldMs>30000</BatteryGlitchHoldMs>
+
+        <FanCountdownExtendAlways>true</FanCountdownExtendAlways>
+        <FanCountdownExtendInterval>120</FanCountdownExtendInterval>
+        <FanCountdownExtendThreshold>100</FanCountdownExtendThreshold>
+
+        <FanProgramDefault>SilentPower</FanProgramDefault>
+        <FanProgramDefaultAlt>Silent</FanProgramDefaultAlt>
+        <FanProgramModeCheckFirst>false</FanProgramModeCheckFirst>
+        <FanProgramSharedTemperature>true</FanProgramSharedTemperature>
+        <FanProgramSuspend>true</FanProgramSuspend>
+        <UpdateProgramInterval>30</UpdateProgramInterval>
+
+        <GpuPowerDefault>Maximum</GpuPowerDefault>
+
+        <FanPrograms>
+            <!-- 100% Max Cooling for 225W GPU + 150W CPU Benchmarks / Gaming -->
+            <Program Name="Power">
+                <FanMode>Performance</FanMode>
+                <GpuPower>Maximum</GpuPower>
+                <Level Temperature="00"><Cpu>00</Cpu><Gpu>00</Gpu></Level>
+                <Level Temperature="36"><Cpu>100</Cpu><Gpu>100</Gpu></Level>
+                <Level Temperature="84"><Cpu>100</Cpu><Gpu>100</Gpu></Level>
+            </Program>
+
+            <!-- Quiet Daily Curve with Full Performance EC Mode + 150W CPU Unlock -->
+            <Program Name="SilentPower">
+                <FanMode>Performance</FanMode>
+                <GpuPower>Maximum</GpuPower>
+                <Level Temperature="00"><Cpu>00</Cpu><Gpu>00</Gpu></Level>
+                <Level Temperature="45"><Cpu>0</Cpu><Gpu>0</Gpu></Level>
+                <Level Temperature="48"><Cpu>8</Cpu><Gpu>8</Gpu></Level>
+                <Level Temperature="51"><Cpu>12</Cpu><Gpu>12</Gpu></Level>
+                <Level Temperature="54"><Cpu>16</Cpu><Gpu>16</Gpu></Level>
+                <Level Temperature="57"><Cpu>20</Cpu><Gpu>20</Gpu></Level>
+                <Level Temperature="60"><Cpu>24</Cpu><Gpu>24</Gpu></Level>
+                <Level Temperature="63"><Cpu>28</Cpu><Gpu>28</Gpu></Level>
+                <Level Temperature="66"><Cpu>30</Cpu><Gpu>30</Gpu></Level>
+                <Level Temperature="69"><Cpu>32</Cpu><Gpu>32</Gpu></Level>
+                <Level Temperature="72"><Cpu>34</Cpu><Gpu>34</Gpu></Level>
+                <Level Temperature="75"><Cpu>36</Cpu><Gpu>36</Gpu></Level>
+                <Level Temperature="78"><Cpu>38</Cpu><Gpu>38</Gpu></Level>
+                <Level Temperature="81"><Cpu>42</Cpu><Gpu>42</Gpu></Level>
+                <Level Temperature="84"><Cpu>46</Cpu><Gpu>46</Gpu></Level>
+                <Level Temperature="87"><Cpu>52</Cpu><Gpu>52</Gpu></Level>
+                <Level Temperature="90"><Cpu>65</Cpu><Gpu>65</Gpu></Level>
+                <Level Temperature="93"><Cpu>80</Cpu><Gpu>80</Gpu></Level>
+                <Level Temperature="95"><Cpu>100</Cpu><Gpu>100</Gpu></Level>
+            </Program>
+        </FanPrograms>
+
+        <Models>
+            <Model ProductId="8BAD" DisplayName="HP Omen 17 (2023)">
+                <FanLevelReg0>52</FanLevelReg0>
+                <FanLevelReg1>53</FanLevelReg1>
+                <FanRateReadReg0>46</FanRateReadReg0>
+                <FanRateReadReg1>47</FanRateReadReg1>
+                <FanRateWriteReg0>58</FanRateWriteReg0>
+                <FanRateWriteReg1>59</FanRateWriteReg1>
+                <FanSpeedReg0>176</FanSpeedReg0>
+                <FanSpeedReg1>178</FanSpeedReg1>
+                <CountdownReg>99</CountdownReg>
+                <ManualReg>98</ManualReg>
+                <ModeReg>149</ModeReg>
+                <SwitchReg>244</SwitchReg>
+            </Model>
+        </Models>
+    </Config>
+</OmenMon>
